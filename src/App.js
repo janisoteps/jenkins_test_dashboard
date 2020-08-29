@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import {testList} from './data/testList';
+import TestResultTable from "./components/testResultTable";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [testDataList, setTestDataList] = useState([]);
+    const [buildResults, setBuildResults] = useState({});
+
+    useEffect(() => {
+        setTestDataList(testList);
+        getData(testList);
+    }, []);
+
+    const getData = (jobList) => {
+        fetch('http://localhost:8081/api/get_all', {
+            method: 'post',
+            body: JSON.stringify({
+                tests: jobList.map(testDict => {return testDict.slug})
+            }),
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }}).then(res => res.json()).then(data => {
+            setBuildResults(data)
+        })
+    }
+
+    return (
+        <div className="App">
+            <header>
+
+            </header>
+            <h1>Total Test Count: {testDataList.length}</h1>
+            <main>
+                {Object.keys(buildResults).length > 0 && (
+                    <TestResultTable
+                        results={buildResults}
+                    />
+                )}
+            </main>
+        </div>
+    );
 }
 
 export default App;
