@@ -29,9 +29,6 @@ function App() {
 
     return (
         <div className="App">
-            <header>
-
-            </header>
             <h1>Total Test Count: {testDataList.length}</h1>
             <main>
                 {Object.keys(buildResults).length > 0 && (

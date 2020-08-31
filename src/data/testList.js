@@ -16,6 +16,10 @@ const testList = [
         multiJob: true
     },
     {
+        slug: 'PERMISSIONS_delete_project_permissions_MultiJob',
+        multiJob: true
+    },
+    {
         slug: 'PERMISSIONS_dashboard_visual_regression_MultiJob',
         multiJob: true
     },
